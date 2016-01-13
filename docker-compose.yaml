@@ -1,0 +1,34 @@
+wordpress:
+  image: wordpress
+  hostname: wordpress
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8080:80
+  volumes:
+    - ./WORDPRESS_DIR:/var/www/html
+wordpress_db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+phpmyadmin:
+  image: corbinu/docker-phpmyadmin
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8181:80
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: examplepass     
+# data:
+#   build: ./data
+#   environment:
+#     MYSQL_ROOT_PASSWORD: examplepass
+#     DATABASE_USER: exampleuser
+#     DATABASE_PASSWORD: passwordexample
+#     WORDPRESS_TABLE_PREFIX: wp_
+#     WORDPRESS_ADMIN_USER: test
+#     WORDPRESS_ADMIN_PASS: testexample
+#     WORDPRESS_ADMIN_EMAIL: test@test.com
+#   links:
+#     - wordpress_db:mysql
